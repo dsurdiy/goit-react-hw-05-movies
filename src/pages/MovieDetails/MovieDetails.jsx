@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useState, useEffect, Suspense } from 'react';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import * as API from 'services/movies-api';
 import { GoBackBtn, MovieWrapper, GenresList } from './MovieDetails.styled';
 
-export const MovieDetails = () => {
-  const { movieId } = useParams();
+const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
+  const { movieId } = useParams();
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     API.fetchMovieById(movieId).then(setMovie);
@@ -16,7 +18,7 @@ export const MovieDetails = () => {
       {movie && (
         <>
           <GoBackBtn>
-            <Link to="/">🔙 Go back</Link>
+            <Link to={backLinkHref}>🔙 Go back</Link>
           </GoBackBtn>
           <MovieWrapper>
             <img
@@ -52,9 +54,13 @@ export const MovieDetails = () => {
           </ul>
           <hr />
 
-          <Outlet />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Outlet />
+          </Suspense>
         </>
       )}
     </div>
   );
 };
+
+export default MovieDetails;

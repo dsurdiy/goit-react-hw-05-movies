@@ -1,12 +1,18 @@
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Container } from './Layout.styled';
 import { Navigation } from 'components/Navigation/Navigation';
 
-export const Layout = () => {
+const Layout = () => {
   return (
     <Container>
       <Navigation />
-      <Outlet />
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </Container>
   );
 };
+
+export default Layout;

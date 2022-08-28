@@ -2,15 +2,13 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as API from 'services/movies-api';
 
-export const MovieReviews = () => {
+const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
     API.fetchMovieReviews(movieId).then(setReviews);
   }, [movieId]);
-
-  console.log(reviews);
 
   return (
     <>
@@ -29,3 +27,5 @@ export const MovieReviews = () => {
     </>
   );
 };
+
+export default Reviews;
