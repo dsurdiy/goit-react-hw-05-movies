@@ -22,3 +22,10 @@ export async function fetchMovieReviews(id) {
   const response = await axios.get(`movie/${id}/reviews?api_key=${API_KEY}`);
   return response.data.results;
 }
+
+export async function fetchMoviesByQuery(query) {
+  const response = await axios.get(
+    `search/movie?query=${query}&api_key=${API_KEY}`
+  );
+  return response.data.results;
+}
